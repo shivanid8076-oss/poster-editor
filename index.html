@@ -959,7 +959,7 @@ const App = (() => {
     const c=S.cv;
     if(type==='property'||type==='rishi'){
       const isR=type==='rishi';
-      const txt=isR?'RISHI DIXIT\nCONTACT NO - 9899271909':'Best Property Deals Available Now! 📲 Call Us Today';
+      const txt=isR?'RISHI DIXIT, CONTACT NO - 9899271909':'Best Property Deals Available Now! 📲 Call Us Today';
       const t=new fabric.IText(txt,{fontSize:isR?22:20,fontFamily:'Syne',fontWeight:'800',fill:'#f5c842',originX:'center',originY:'center',textAlign:'center'});
       const r=new fabric.Rect({width:t.width+40,height:t.height+20,fill:'#000000',originX:'center',originY:'center',rx:8,ry:8});
       const group=new fabric.Group([r,t],{left:c.width/2,top:c.height/2,originX:'center',originY:'center',name:'RibbonGroup'});
