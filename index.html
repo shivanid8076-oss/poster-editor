@@ -657,6 +657,9 @@ const App = (() => {
         <option value="none">None</option><option value="grayscale">Grayscale</option>
         <option value="sepia">Sepia</option><option value="brightness">Brightness</option><option value="contrast">Contrast</option>
       </select></div>
+      <div class="slbl" style="margin-top:10px">Border</div>
+      <div class="pr"><span class="pl">Color</span><div class="cpw" style="max-width:38px"><input type="color" id="pibc" value="${obj.stroke||'#7c5cfc'}"></div>
+        <span class="pl" style="width:18px">W</span><input class="pi" type="number" id="pibw" value="${obj.strokeWidth||0}" min="0" max="50" style="max-width:50px"></div>
     </div>`;
     if(isRG){
       const rc = obj.item(0).fill;
@@ -737,6 +740,8 @@ const App = (() => {
     on('pcr-c','click',cancelCrop);
     on('pcr-s','click',saveCrop);
     on('pflt','change',e=>doFilter(obj,e.target.value));
+    on('pibc','input',e=>{obj.set('stroke',e.target.value);c.renderAll();});
+    on('pibw','change',e=>{obj.set('strokeWidth',+e.target.value);c.renderAll();});
     on('ptf','click',()=>{c.bringToFront(obj);refreshLayers();});
     on('pfw2','click',()=>{c.bringForward(obj);refreshLayers();});
     on('pbw','click',()=>{c.sendBackwards(obj);refreshLayers();});
@@ -952,15 +957,16 @@ const App = (() => {
   /* ── TEXT ── */
   function addText(type){
     const c=S.cv;
-    if(type==='property'){
-      const txt='Best Property Deals Available Now! 📲 Call Us Today';
-      const t=new fabric.IText(txt,{fontSize:20,fontFamily:'Syne',fontWeight:'800',fill:'#f5c842',originX:'center',originY:'center'});
+    if(type==='property'||type==='rishi'){
+      const isR=type==='rishi';
+      const txt=isR?'RISHI DIXIT\nCONTACT NO - 9899271909':'Best Property Deals Available Now! 📲 Call Us Today';
+      const t=new fabric.IText(txt,{fontSize:isR?22:20,fontFamily:'Syne',fontWeight:'800',fill:'#f5c842',originX:'center',originY:'center',textAlign:'center'});
       const r=new fabric.Rect({width:t.width+40,height:t.height+20,fill:'#7c5cfc',originX:'center',originY:'center',rx:8,ry:8});
       const group=new fabric.Group([r,t],{left:c.width/2,top:c.height/2,originX:'center',originY:'center',name:'RibbonGroup'});
       c.add(group); c.setActiveObject(group); c.renderAll(); saveH();
-      toast('🏠 Property ribbon added!'); closeSheet(); return;
+      toast(`🏠 ${isR?'Rishi':'Property'} ribbon added!`); closeSheet(); return;
     }
-    const m={heading:{text:'Heading Text',fontSize:50,fontFamily:'Syne',fontWeight:'800',fill:'#fff'},subheading:{text:'Subheading',fontSize:30,fontFamily:'DM Sans',fontWeight:'500',fill:'#ccc'},body:{text:'Body text here',fontSize:17,fontFamily:'DM Sans',fontWeight:'400',fill:'#aaa'},name:{text:'Your Name',fontSize:38,fontFamily:'Syne',fontWeight:'800',fill:'#fff'},contact:{text:'📞 +91 00000 00000',fontSize:18,fontFamily:'DM Sans',fontWeight:'400',fill:'#888'},rishi:{text:'RISHI DIXIT\nCONTACT NO - 9899271909',fontSize:22,fontFamily:'Syne',fontWeight:'800',fill:'#f5c842',textAlign:'center'}};
+    const m={heading:{text:'Heading Text',fontSize:50,fontFamily:'Syne',fontWeight:'800',fill:'#fff'},subheading:{text:'Subheading',fontSize:30,fontFamily:'DM Sans',fontWeight:'500',fill:'#ccc'},body:{text:'Body text here',fontSize:17,fontFamily:'DM Sans',fontWeight:'400',fill:'#aaa'},name:{text:'Your Name',fontSize:38,fontFamily:'Syne',fontWeight:'800',fill:'#fff'},contact:{text:'📞 +91 00000 00000',fontSize:18,fontFamily:'DM Sans',fontWeight:'400',fill:'#888'}};
     const cfg=m[type]||m.body;
     const t=new fabric.IText(cfg.text,{left:c.width/2,top:c.height/2,originX:'center',originY:'center',name:cfg.text,...cfg});
     c.add(t); c.setActiveObject(t); c.renderAll();
